@@ -1,14 +1,8 @@
-import { useChain } from "@cosmos-kit/react";
 import { Box, Button, Text } from "@interchain-ui/react";
-import { chains } from "chain-registry";
-
-const chain = chains.find((c) => c.chain_id === "osmo-test-5");
+import { useWalletConnection } from "../hooks/useWalletConnection";
 
 const Header = () => {
-  const { connect, disconnect, isWalletConnected } = useChain(
-    chain?.chain_name || "",
-    false
-  );
+  const { connect, disconnect, isWalletConnected } = useWalletConnection();
 
   const handleButtonClick = () => {
     if (isWalletConnected) {
