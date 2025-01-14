@@ -5,6 +5,7 @@ import { assets, chains } from "chain-registry";
 import Header from "./components/Header";
 import { Box } from "@interchain-ui/react";
 import ChainInfo from "./components/ChainInfo";
+import ChainAssets from "./components/ChainAssets";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       >
         <Header />
         <ChainInfo />
+        <ChainAssets />
       </Box>
     </ChainProvider>
   );
