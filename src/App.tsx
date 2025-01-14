@@ -4,6 +4,7 @@ import "@interchain-ui/react/styles";
 import { assets, chains } from "chain-registry";
 import Header from "./components/Header";
 import { Box } from "@interchain-ui/react";
+import ChainInfo from "./components/ChainInfo";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         overflow="hidden"
       >
         <Header />
+        <ChainInfo />
       </Box>
     </ChainProvider>
   );
