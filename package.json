@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cosmjs/stargate": "^0.32.4",
     "@cosmos-kit/keplr": "^2.14.3",
     "@cosmos-kit/react": "^2.21.2",
     "@interchain-ui/react": "^1.26.1",
