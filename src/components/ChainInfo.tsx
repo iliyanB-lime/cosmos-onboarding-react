@@ -8,10 +8,12 @@ import {
   Text,
 } from "@interchain-ui/react";
 import { useWalletConnection } from "../hooks/useWalletConnection";
+import { useWalletNativeBalance } from "../hooks/useWalletNativeBalance";
 
 const ChainInfo = () => {
   const { address, chain, isWalletConnected, isWalletConnecting } =
     useWalletConnection();
+  const { balance } = useWalletNativeBalance();
 
   if (!isWalletConnected) {
     return null;
@@ -78,6 +80,12 @@ const ChainInfo = () => {
               <strong>Network Type:</strong>
             </TableCell>
             <TableCell>{network_type}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <strong>Balance:</strong>
+            </TableCell>
+            <TableCell>{balance?.amount || "-"}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
