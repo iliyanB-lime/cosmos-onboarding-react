@@ -5,6 +5,7 @@ import {
   TableBody,
   TableCell,
   TableRow,
+  Text,
 } from "@interchain-ui/react";
 import { useWalletConnection } from "../hooks/useWalletConnection";
 
@@ -25,6 +26,9 @@ const ChainInfo = () => {
 
   return (
     <Box>
+      <Text fontSize="28px" fontWeight="bold">
+        Chain Info
+      </Text>
       <Table>
         <TableBody>
           <TableRow>
