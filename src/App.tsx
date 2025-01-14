@@ -1,16 +1,22 @@
 import { wallets } from "@cosmos-kit/keplr";
 import { ChainProvider } from "@cosmos-kit/react";
-import { assets, chains } from "chain-registry";
-
-// Import this in your top-level route/layout
 import "@interchain-ui/react/styles";
+import { assets, chains } from "chain-registry";
+import Header from "./components/Header";
+import { Box } from "@interchain-ui/react";
 
 function App() {
   return (
     <ChainProvider chains={chains} assetLists={assets} wallets={wallets}>
-      <div>
-        <h1>Hello World</h1>
-      </div>
+      <Box
+        display="flex"
+        flexDirection="column"
+        width="100vw"
+        height="100vh"
+        overflow="hidden"
+      >
+        <Header />
+      </Box>
     </ChainProvider>
   );
 }
