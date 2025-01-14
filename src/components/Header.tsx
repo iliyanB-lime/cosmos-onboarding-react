@@ -19,8 +19,6 @@ const Header = () => {
       alignItems="center"
       padding="1rem"
       backgroundColor="background"
-      borderBottom="1px solid"
-      borderColor="border"
     >
       <Text>CosmosKit Example</Text>
       <Button onClick={handleButtonClick}>
