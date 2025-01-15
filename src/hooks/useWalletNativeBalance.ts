@@ -1,11 +1,11 @@
+import { StargateClient } from "@cosmjs/stargate";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { useEffect, useState } from "react";
-import { DEFAULT_ASSET_DENOM } from "../constants";
 import { useWalletConnection } from "./useWalletConnection";
-import { StargateClient } from "@cosmjs/stargate";
 
 export const useWalletNativeBalance = () => {
-  const { address, isWalletConnected, getRpcEndpoint } = useWalletConnection();
+  const { address, isWalletConnected, chain, getRpcEndpoint } =
+    useWalletConnection();
   const [stargateClient, setStargateClient] = useState<StargateClient | null>(
     null
   );
@@ -25,9 +25,11 @@ export const useWalletNativeBalance = () => {
       }
     }
     try {
+      const stakingToken = chain?.staking?.staking_tokens?.[0];
+      if (!stakingToken) return;
       const balance = await internalClient.getBalance(
         address,
-        DEFAULT_ASSET_DENOM
+        stakingToken.denom
       );
       setBalance(balance);
     } catch (error) {
@@ -36,9 +38,9 @@ export const useWalletNativeBalance = () => {
   };
 
   useEffect(() => {
-    if (isWalletConnected && address) {
+    if (isWalletConnected && address && chain) {
       fetchBalance();
     }
-  }, [address, isWalletConnected]);
+  }, [address, chain, isWalletConnected]);
   return { balance, fetchBalance };
 };
