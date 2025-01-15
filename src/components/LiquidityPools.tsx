@@ -6,13 +6,19 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRowHeaderCell,
   TableRow,
+  TableRowHeaderCell,
   Text,
 } from "@interchain-ui/react";
+import { useWalletConnection } from "../hooks/useWalletConnection";
 
 const LiquidityPools = () => {
+  const { isWalletConnected } = useWalletConnection();
   const { liquidityPools, isLoading } = useMantraLiquidityPools();
+
+  if (!isWalletConnected) {
+    return null;
+  }
 
   if (isLoading) {
     return <Text>Loading...</Text>;
