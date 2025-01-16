@@ -1,8 +1,8 @@
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { useEffect, useState } from "react";
-import { MANTRA_LIQUIDITY_POOLS_CONTRACT } from "../constants";
-import { useWalletConnection } from "./useWalletConnection";
+import { MANTRA_LIQUIDITY_POOLS_CONTRACT, SUPPORTED_CHAIN } from "../constants";
 import { LiquidityPool, LiquidityPoolResponse } from "../types/liquidityPool";
+import { useWalletConnection } from "./useWalletConnection";
 
 export const useMantraLiquidityPools = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +12,7 @@ export const useMantraLiquidityPools = () => {
   const [liquidityPools, setLiquidityPools] = useState<LiquidityPool[]>([]);
 
   const fetchLiquidityPools = async () => {
-    if (chain && chain.chain_id !== "mantra-dukong-1") {
+    if (chain && chain.chain_id !== SUPPORTED_CHAIN.MANTRA) {
       setLiquidityPools([]);
       return;
     }
