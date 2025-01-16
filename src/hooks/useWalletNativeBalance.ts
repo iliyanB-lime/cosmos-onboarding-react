@@ -11,23 +11,27 @@ export const useWalletNativeBalance = () => {
   );
   const [balance, setBalance] = useState<Coin | undefined>();
 
+  const createStargateClient = async () => {
+    const rpcEndpoint = await getRpcEndpoint();
+    const client = await StargateClient.connect(rpcEndpoint);
+    setStargateClient(client);
+    return client;
+  };
+
+  useEffect(() => {
+    createStargateClient();
+  }, [chain]);
+
   const fetchBalance = async () => {
     if (!address) return;
-    let internalClient = stargateClient;
-    if (!internalClient) {
-      try {
-        const rpcEndpoint = await getRpcEndpoint();
-        internalClient = await StargateClient.connect(rpcEndpoint);
-        setStargateClient(internalClient);
-      } catch (error) {
-        console.error("Failed to connect to stargate client", error);
-        return;
-      }
+    if (!stargateClient) {
+      console.error("Stargate client not found");
+      return;
     }
     try {
       const stakingToken = chain?.staking?.staking_tokens?.[0];
       if (!stakingToken) return;
-      const balance = await internalClient.getBalance(
+      const balance = await stargateClient.getBalance(
         address,
         stakingToken.denom
       );
@@ -38,9 +42,8 @@ export const useWalletNativeBalance = () => {
   };
 
   useEffect(() => {
-    if (isWalletConnected && address && chain) {
-      fetchBalance();
-    }
-  }, [address, chain, isWalletConnected]);
+    fetchBalance();
+  }, [address, stargateClient, isWalletConnected]);
+
   return { balance, fetchBalance };
 };
