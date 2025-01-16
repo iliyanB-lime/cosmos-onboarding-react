@@ -1,14 +1,31 @@
-import { Box, Button, Text } from "@interchain-ui/react";
+import {
+  Box,
+  Button,
+  Item,
+  Select,
+  SelectOption,
+  Text,
+} from "@interchain-ui/react";
+import { SUPPORTED_CHAIN_IDS } from "../constants";
+import { useChainContext } from "../hooks/useChainContext";
 import { useWalletConnection } from "../hooks/useWalletConnection";
 
 const Header = () => {
-  const { connect, disconnect, isWalletConnected } = useWalletConnection();
+  const { setChainId } = useChainContext();
+  const { connect, disconnect, chain, isWalletConnected } =
+    useWalletConnection();
 
   const handleButtonClick = () => {
     if (isWalletConnected) {
       disconnect();
     } else {
       connect();
+    }
+  };
+
+  const handleChainChange = (item: Item | null) => {
+    if (item) {
+      setChainId(item.key);
     }
   };
 
@@ -21,9 +38,21 @@ const Header = () => {
       backgroundColor="background"
     >
       <Text>CosmosKit Example</Text>
-      <Button onClick={handleButtonClick}>
-        {isWalletConnected ? "Disconnect" : "Connect Wallet"}
-      </Button>
+      {isWalletConnected && <Text>Connected to {chain.pretty_name}</Text>}
+      <Box display="flex" gap="1rem">
+        {!isWalletConnected && (
+          <Select onSelectItem={handleChainChange}>
+            {SUPPORTED_CHAIN_IDS.map((chainId) => (
+              <SelectOption key={chainId} optionKey={chainId} label={chainId}>
+                {chainId}
+              </SelectOption>
+            ))}
+          </Select>
+        )}
+        <Button onClick={handleButtonClick}>
+          {isWalletConnected ? "Disconnect" : "Connect Wallet"}
+        </Button>
+      </Box>
     </Box>
   );
 };
