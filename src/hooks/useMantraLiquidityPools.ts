@@ -2,7 +2,8 @@ import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { useEffect, useState } from "react";
 import { MANTRA_LIQUIDITY_POOLS_CONTRACT } from "../constants";
 import { useWalletConnection } from "./useWalletConnection";
-import { LiquidityPool, LiquidityPoolResponse } from "../types/LiquidityPool";
+import { LiquidityPool, LiquidityPoolResponse } from "../types/liquidityPool";
+
 export const useMantraLiquidityPools = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { address, isWalletConnected, chain, getRpcEndpoint } =
@@ -11,7 +12,10 @@ export const useMantraLiquidityPools = () => {
   const [liquidityPools, setLiquidityPools] = useState<LiquidityPool[]>([]);
 
   const fetchLiquidityPools = async () => {
-    if (chain && chain.chain_id !== "mantra-dukong-1") return;
+    if (chain && chain.chain_id !== "mantra-dukong-1") {
+      setLiquidityPools([]);
+      return;
+    }
     if (!address) return;
     setIsLoading(true);
     let internalClient = cosmosClient;
